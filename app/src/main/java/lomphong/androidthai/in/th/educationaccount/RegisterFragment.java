@@ -1,13 +1,18 @@
 package lomphong.androidthai.in.th.educationaccount;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 
 /**
@@ -25,6 +30,50 @@ public class RegisterFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
 //        Create Toolbar
+        createToolbar();
+//        Avatar Controller
+        avatarController();
+
+    } //main method
+
+    private void avatarController() {
+        ImageView imageView = getView().findViewById(R.id.imageViewAvatar);
+        imageView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+//                intent to gallery
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(Intent.createChooser(intent,"Please Choose app"), 1);
+
+
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        if (item.getItemId()==R.id.itemUpload) {
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_register, menu);
+
+    }
+
+    private void createToolbar() {
         Toolbar toolbar = getView().findViewById(R.id.toolbarRegister);
         ((MainActivity)getActivity()).setSupportActionBar(toolbar);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("Register");
@@ -37,7 +86,8 @@ public class RegisterFragment extends Fragment {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
-    } //main method
+        setHasOptionsMenu(true);
+    }
 
 
     @Override
