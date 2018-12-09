@@ -5,4 +5,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email">Email :</string>
     <string name="password">Password :</string>
+
+
+    <string name="title_have_space">มีช่องว่าง</string>
+    <string name="masseage_have_space">โปรดกรอกทุกช่อง</string>
 </resources>

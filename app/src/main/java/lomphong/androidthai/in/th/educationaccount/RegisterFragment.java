@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 
@@ -99,11 +100,42 @@ public class RegisterFragment extends Fragment {
 
         if (item.getItemId()==R.id.itemUpload) {
 
+            checkDataAnUpload();
+
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void checkDataAnUpload() {
+
+        MyAlert myAlert=new MyAlert(getActivity());
+// get value from edittext
+        EditText  nameEditeText = getView().findViewById(R.id.editTextName);
+        EditText emailEdittext = getView().findViewById(R.id.editTextEmail);
+        EditText passwordEditText = getView().findViewById(R.id.editTextPassword);
+        String nameString = nameEditeText.getText().toString().trim();
+        String emailString = emailEdittext.getText().toString().trim();
+        String passwordString = passwordEditText.getText().toString().trim();
+
+
+
+
+        if (avataABoolean) {
+           // none  Choose avatar
+            myAlert.normalDialog("None Choose Avatar","Please Choose Avatar");
+
+        } else if (nameString.isEmpty() || emailString.isEmpty() || passwordString.isEmpty()) {
+        //    Have space
+            myAlert.normalDialog(getString(R.string.title_have_space), getString(R.string.masseage_have_space));
+        } else {
+
+        } //if
+
+
+    } //checkData
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
