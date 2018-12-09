@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1047775804742",
+    "firebase_url": "https://educationaccount-22.firebaseio.com",
+    "project_id": "educationaccount-22",
+    "storage_bucket": "educationaccount-22.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047775804742:android:27dcc3fdcac92f5d",
+        "android_client_info": {
+          "package_name": "lomphong.androidthai.in.th.educationaccount"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1047775804742-p1t2hfao22dvgk9qtfhr9r70fustedj4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "lomphong.androidthai.in.th.educationaccount",
+            "certificate_hash": "645b083c7c4c20a5e44f20e1caf5652c348f0b57"
+          }
+        },
+        {
+          "client_id": "1047775804742-oa90rn4e0ctcf8qhk803tdm0hok4fle6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDapBWBcvS1hhVW4943NuJ4dcrdlUXk1qU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1047775804742-oa90rn4e0ctcf8qhk803tdm0hok4fle6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
