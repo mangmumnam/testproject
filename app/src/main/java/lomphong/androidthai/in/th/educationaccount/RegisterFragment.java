@@ -1,11 +1,13 @@
 package lomphong.androidthai.in.th.educationaccount;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +20,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 
 /**
@@ -31,6 +43,8 @@ public class RegisterFragment extends Fragment {
     private Uri uri;
     private String tag = "17novV1";
     private MyAlert myAlert;
+    private String nameString,emailString, passwordString, avatarString, uidString;
+
 
 
 
@@ -78,7 +92,7 @@ public class RegisterFragment extends Fragment {
     }
 
     private void avatarController() {
-        imageView = getView().findViewById(R.id.imageViewAvatar);
+        imageView = getView().findViewById(R.id.imageViewAvata);
         imageView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -112,13 +126,19 @@ public class RegisterFragment extends Fragment {
     private void checkDataAnUpload() {
 
         MyAlert myAlert=new MyAlert(getActivity());
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setTitle("Upload Avatar Image");
+        progressDialog.setMessage("Please Wait Few Minus...");
+        progressDialog.show();
+
+
 // get value from edittext
         EditText  nameEditeText = getView().findViewById(R.id.editTextName);
         EditText emailEdittext = getView().findViewById(R.id.editTextEmail);
         EditText passwordEditText = getView().findViewById(R.id.editTextPassword);
-        String nameString = nameEditeText.getText().toString().trim();
-        String emailString = emailEdittext.getText().toString().trim();
-        String passwordString = passwordEditText.getText().toString().trim();
+        nameString = nameEditeText.getText().toString().trim();
+        emailString = emailEdittext.getText().toString().trim();
+        passwordString = passwordEditText.getText().toString().trim();
 
 
 
@@ -131,11 +151,70 @@ public class RegisterFragment extends Fragment {
         //    Have space
             myAlert.normalDialog(getString(R.string.title_have_space), getString(R.string.masseage_have_space));
         } else {
+//dataOK
+            FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+            StorageReference storageReference = firebaseStorage.getReference();
+            storageReference.child("Avatar/" + nameString).putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(getActivity(),"Success Upload Avatar" , Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    findPartAvatar();
+
+                }
+            });
 
         } //if
 
 
     } //checkData
+
+    private void findPartAvatar() {
+
+        FirebaseStorage firebaseStorage=FirebaseStorage.getInstance();
+        StorageReference storageReference = firebaseStorage.getReference().child("Avatar").child(nameString);
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                avatarString = uri.toString();
+                Log.d("9decV1","avatarString ==>" +avatarString);
+                register();
+
+            }
+        });
+
+    }
+
+    private void register() {
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.createUserWithEmailAndPassword(emailString, passwordString)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                if (task.isSuccessful()) {
+//                    Register success;
+                    updateDatabase();
+
+                } else {
+                    myAlert.normalDialog("Cannot Register ?", task.getException().toString());
+                }
+
+            }
+        });
+
+    }
+
+    private void updateDatabase() {
+
+//        Find Uid
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        uidString = firebaseAuth.getUid();
+        Log.d("9decV1", "uidSring ==>" + uidString);
+
+
+    }   //updateDatabase
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

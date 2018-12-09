@@ -6,53 +6,53 @@
     android:layout_height="match_parent"
     tools:context=".RegisterFragment">
 
-    <!--tools var-->
+    <!--Toolbar-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarRegister"
-        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>
 
-    <!--content-->
+    <!--Content-->
     <LinearLayout
+        android:layout_margin="@dimen/margin"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin">
+        android:layout_height="wrap_content">
 
-        <!--Avatar-->
+        <!--Avata-->
         <ImageView
-            android:id="@+id/imageViewAvatar"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:layout_gravity="center_horizontal"
             android:scaleType="centerInside"
-            android:src="@drawable/avata" />
+            android:id="@+id/imageViewAvata"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/avata"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp" />
 
         <!--Name-->
         <EditText
             android:id="@+id/editTextName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:inputType="text"
             android:hint="Name :"
-            android:inputType="text" />
-        <!--email-->
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!--Email-->
         <EditText
             android:id="@+id/editTextEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
             android:hint="@string/email"
-            android:inputType="textEmailAddress" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-
-        <!--password-->
+        <!--Password-->
         <EditText
             android:id="@+id/editTextPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:inputType="text"
             android:hint="@string/password"
-            android:inputType="text" />
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
