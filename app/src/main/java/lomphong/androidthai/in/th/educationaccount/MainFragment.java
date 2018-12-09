@@ -2,13 +2,19 @@ package lomphong.androidthai.in.th.educationaccount;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
+import com.google.android.gms.common.data.SingleRefDataBufferIterator;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -27,6 +33,55 @@ public class MainFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
 //        SignUp Controller
+        signUpController();
+
+//        signIn Controller
+        signInController();
+
+    }  //Main Method
+
+    private void signInController() {
+        Button button = getView().findViewById(R.id.buttonSignIn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                EditText emailEditText = getView().findViewById(R.id.editTextEmail);
+                EditText passwordEditText = getView().findViewById(R.id.editTextPassword);
+                final MyAlert myAlert = new MyAlert(getActivity());
+
+                String emailString = emailEditText.getText().toString().trim();
+                String passwordString = passwordEditText.getText().toString().trim();
+
+                if (emailString.isEmpty() || passwordString.isEmpty()) {
+                    myAlert.normalDialog(getString(R.string.title_have_space), getString(R.string.masseage_have_space));
+
+                } else {
+//                    Check Authen
+                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                    firebaseAuth.signInWithEmailAndPassword(emailString,passwordString)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+
+                            if (task.isSuccessful()) {
+                                getActivity().getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.contentMainFragment, new ServiceFragment()).commit();
+                            } else {
+                                myAlert.normalDialog("Authen False" , task.getException().toString());
+                            }
+
+                        }
+                    });
+
+                }
+
+            }
+        });
+    }
+
+
+    private void signUpController() {
         Button button = getView().findViewById(R.id.buttonSignUp);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,8 +93,7 @@ public class MainFragment extends Fragment {
 
             }
         });
-
-    }  //Main Method
+    } //        SignUp Controller
 
     @Override
     public void onResume() {
