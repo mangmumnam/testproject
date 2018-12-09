@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +40,23 @@ public class MainFragment extends Fragment {
         });
 
     }  //Main Method
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+//        Check Authen
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getUid() != null) {
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.contentMainFragment, new ServiceFragment())
+                    .commit();
+        }
+
+
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
